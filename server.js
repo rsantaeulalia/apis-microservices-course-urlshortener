@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const shortenedUrls = {};
+let numberOfUrls = 0;
 
 app.use(cors());
 
@@ -30,15 +31,15 @@ app.get('/api/shorturl/:urlId', function(req, res) {
 });
 
 app.post('/api/shorturl', function(req, res) {
-  const originalUrl = req.body.original_url;
-  const shortUrl = req.body.short_url;
-
+  const originalUrl = req.body.url;
+  
   dns.lookup(originalUrl, (err, addr) => {
     if (err) {
       res.json({ error: 'invalid url' });
     } else {
-      shortenedUrls[short_url] = originalUrl;
-      res.json({ original_url: originalUrl, short_url: shortUrl });
+      numberOfUrls += numberOfUrls;
+      shortenedUrls[numberOfUrls] = originalUrl;
+      res.json({ original_url: originalUrl, short_url: numberOfUrls });
     }})
 });
 
