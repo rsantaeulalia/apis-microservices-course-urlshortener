@@ -3,6 +3,7 @@ const express = require('express');
 var bodyParser = require('body-parser');
 const cors = require('cors');
 const dns = require('dns');
+const url = require('url'); 
 const app = express();
 
 // Basic Configuration
@@ -34,11 +35,11 @@ app.get('/api/shorturl/:urlId', function (req, res) {
 app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
 
-  dns.lookup(originalUrl, err => {
+  dns.lookup(url.parse(originalUrl).hostname, err => {
     if (err && err.code === 'ENOTFOUND') {
       res.json({ error: 'invalid url' });
     } else {
-      numberOfUrls += numberOfUrls;
+      numberOfUrls = numberOfUrls++;
       shortenedUrls[numberOfUrls] = originalUrl;
       res.json({ original_url: originalUrl, short_url: numberOfUrls });
     }
