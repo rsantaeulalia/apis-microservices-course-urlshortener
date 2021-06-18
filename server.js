@@ -33,7 +33,7 @@ app.get('/api/shorturl/:urlId', function (req, res) {
 
 app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
-  const exists = await validUrl(originalUrl);
+  const exists = isValidUrl(originalUrl);
 
   if (exists) {
     numberOfUrls += numberOfUrls;
@@ -47,3 +47,7 @@ app.post('/api/shorturl', function (req, res) {
 app.listen(port, function () {
   console.log(`Listening on port ${port}`);
 });
+
+async isValidUrl => (url) => {
+  return await urlExist(url);
+}
