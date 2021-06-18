@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 var bodyParser = require('body-parser');
 const cors = require('cors');
+const dns = require('dns');
 const app = express();
 
 // Basic Configuration
