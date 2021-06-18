@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 var bodyParser = require('body-parser');
 const cors = require('cors');
-var validUrl = require('valid-url');
+var validUrl = require('url-exist');
 const app = express();
 
 // Basic Configuration
@@ -33,8 +33,9 @@ app.get('/api/shorturl/:urlId', function (req, res) {
 
 app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
+  const exists = await validUrl(originalUrl);
 
-  if (validUrl.isUri(originalUrl)) {
+  if (exists) {
     numberOfUrls += numberOfUrls;
     shortenedUrls[numberOfUrls] = originalUrl;
     res.json({ original_url: originalUrl, short_url: numberOfUrls });
