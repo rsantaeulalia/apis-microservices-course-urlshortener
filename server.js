@@ -33,8 +33,9 @@ app.get('/api/shorturl/:urlId', function(req, res) {
 
 app.post('/api/shorturl', function(req, res) {
   const originalUrl = req.body.url;
-  
-  dns.lookup(originalUrl, (err, addr) => {
+  const parsedLookupUrl = url.parse(originalUrl);
+
+  dns.lookup(parsedLookupUrl.hostname, (err, addr) => {
     if (err) {
       res.json({ error: 'invalid url' });
     } else {
