@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 var bodyParser = require('body-parser');
 const cors = require('cors');
-var validUrl = require('url-exists');
+const dns = require('dns');
 const app = express();
 
 // Basic Configuration
@@ -33,10 +33,9 @@ app.get('/api/shorturl/:urlId', function (req, res) {
 
 app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
-  //const exists = isValidUrl(originalUrl);
 
-  validUrl(originalUrl, (err, exists) => {
-    if (err) {
+  dns.lookup(originalUrl, err => {
+    if (error && error.code === 'ENOTFOUND') {
       res.json({ error: 'invalid url' });
     } else {
       numberOfUrls += numberOfUrls;
@@ -44,16 +43,4 @@ app.post('/api/shorturl', function (req, res) {
       res.json({ original_url: originalUrl, short_url: numberOfUrls });
     }
   })
-
-  /*if (exists) {
-    numberOfUrls += numberOfUrls;
-    shortenedUrls[numberOfUrls] = originalUrl;
-    res.json({ original_url: originalUrl, short_url: numberOfUrls });
-  } else {
-    res.json({ error: 'invalid url' });
-  }*/
 });
-
-/*app.listen(port, function () {
-  console.log(`Listening on port ${port}`);
-});*/
