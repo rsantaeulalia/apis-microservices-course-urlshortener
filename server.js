@@ -35,7 +35,7 @@ app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
 
   dns.lookup(originalUrl, err => {
-    if (error && error.code === 'ENOTFOUND') {
+    if (err && err.code === 'ENOTFOUND') {
       res.json({ error: 'invalid url' });
     } else {
       numberOfUrls += numberOfUrls;
