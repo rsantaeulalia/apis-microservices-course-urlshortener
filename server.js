@@ -33,15 +33,25 @@ app.get('/api/shorturl/:urlId', function (req, res) {
 
 app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
-  const exists = isValidUrl(originalUrl);
+  //const exists = isValidUrl(originalUrl);
 
-  if (exists) {
+  validUrl(originalUrl, (err, exists) => {
+    if (err) {
+      res.json({ error: 'invalid url' });
+    } else {
+      numberOfUrls += numberOfUrls;
+      shortenedUrls[numberOfUrls] = originalUrl;
+      res.json({ original_url: originalUrl, short_url: numberOfUrls });
+    }
+  })
+
+  /*if (exists) {
     numberOfUrls += numberOfUrls;
     shortenedUrls[numberOfUrls] = originalUrl;
     res.json({ original_url: originalUrl, short_url: numberOfUrls });
   } else {
     res.json({ error: 'invalid url' });
-  }
+  }*/
 });
 
 app.listen(port, function () {
