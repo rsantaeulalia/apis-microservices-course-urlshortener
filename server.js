@@ -41,7 +41,7 @@ app.post('/api/shorturl', function (req, res) {
     
     numberOfUrls = numberOfUrls++;
     shortenedUrls[numberOfUrls] = originalUrl;
-    res.json({ original_url: originalUrl, short_url: numberOfUrls });
+    return res.json({ original_url: originalUrl, short_url: numberOfUrls });
   })
 });
 
