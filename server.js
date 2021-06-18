@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 var bodyParser = require('body-parser');
 const cors = require('cors');
-var validUrl = require('url-exist');
+var validUrl = require('url-exists');
 const app = express();
 
 // Basic Configuration
@@ -54,10 +54,6 @@ app.post('/api/shorturl', function (req, res) {
   }*/
 });
 
-app.listen(port, function () {
+/*app.listen(port, function () {
   console.log(`Listening on port ${port}`);
-});
-
-async isValidUrl => (url) => {
-  return await urlExist(url);
-}
+});*/
