@@ -35,11 +35,11 @@ app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
 
   if (validUrl.isUri(originalUrl)) {
-    res.json({ error: 'invalid url' });
-  } else {
     numberOfUrls += numberOfUrls;
     shortenedUrls[numberOfUrls] = originalUrl;
     res.json({ original_url: originalUrl, short_url: numberOfUrls });
+  } else {
+    res.json({ error: 'invalid url' });
   }
 });
 
