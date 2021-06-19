@@ -63,23 +63,24 @@ app.get('/api/shorturl/:urlId', function (req, res) {
 app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
 
-  testValidUrl(req.body.url, (err, address) => {
-    if (err) return res.json({ error: 'invalid url' });
-    if (address == null)
-      return res.json({ error: 'invalid url' });
-
-    createAndSaveUrl(req.body.url, (err, doc) => {
+  if(validURL(req.body.url)){
+        createAndSaveUrl(req.body.url, (err, doc) => {
       if (err) return res.json(err);
-      res.json(doc);
+      return res.json(doc);
     });
-  })
+  } else {
+    return res.json({ error: 'invalid url' });
+  }
 });
 
-const testValidUrl = (url, done) => {
-  dns.lookup(url.replace(/^https?:\/\//, ''), (err, address, family) => {
-    if (err) return done(err);
-    done(null, address);
-  });
+function validURL(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return !!pattern.test(str);
 }
 
 app.listen(port, function () {
