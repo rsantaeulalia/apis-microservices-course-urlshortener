@@ -12,7 +12,7 @@ const app = express();
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
-mongoose.connect(process.env.DB_URI);
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 
 const shortUrlSchema = new mongoose.Schema({
   original_url: String,
@@ -22,8 +22,8 @@ const shortUrlSchema = new mongoose.Schema({
 const ShortUrl = mongoose.model('ShortUrl', shortUrlSchema);
 
 app.use(cors());
-
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: "false" }));
+app.use(bodyParser.json());
 
 app.use('/public', express.static(`${process.cwd()}/public`));
 
