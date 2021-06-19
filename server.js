@@ -35,7 +35,7 @@ app.post('/api/shorturl', function (req, res) {
   const originalUrl = req.body.url;
 
   testValidUrl(req.body.url, (err, address) => {
-    if(err) return res.json(err);
+    if(err) return res.json({error: 'invalid url'});
     if (address == null)
       return res.json({error: 'invalid url'});
     
@@ -46,14 +46,10 @@ app.post('/api/shorturl', function (req, res) {
 });
 
 const testValidUrl = (url, done) => {
-  if ( /^https?:\/\/(w{3}.)?[\w-]+.com(\/\w+)*/.test(url) ){
     dns.lookup(url.replace(/^https?:\/\//, ''), (err, address, family) => {
       if(err) return done(err);
     done(null, address);
     });
-  }
-  else
-    done(null, null);
 }
 
 app.listen(port, function () {
